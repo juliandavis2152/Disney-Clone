@@ -3,11 +3,10 @@ import MoviesCarousel from "@/components/MoviesCarousel";
 import { getPopularMovies, getSearchedMovies } from "@/lib/getMovies";
 import { notFound } from "next/navigation"; 
 
+type Params = Promise<{ term: string }>;
+
 type Props = {
-  params: {
-    term: string;
-  };
-};
+  params: Params }
 
 async function SearchPage( { params }: Props) {
   const { term } = await Promise.resolve(params);
