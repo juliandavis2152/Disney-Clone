@@ -24,8 +24,14 @@ async function GenreDropdown() {
     }
   }
 
-  const response = await fetch(url, options)
-  const data = (await response.json()) as Genres
+  const response = await fetch(url, options);
+  const data = (await response.json()) as Genres;
+  
+  // Log data to confirm its structure
+  console.log("Fetched data:", data);
+
+  // Safeguard for undefined `data.genres`
+  const genres = data.genres || [];
 
   return (
     <DropdownMenu>
@@ -37,16 +43,20 @@ async function GenreDropdown() {
             <DropdownMenuLabel>Select a Genre</DropdownMenuLabel>
             <DropdownMenuSeparator />
 
-            {data.genres.map((genre) => (
-                <DropdownMenuItem key={genre.id}>
-                    <Link href={`/genre/${genre.id}?genre=${genre.name}`}>
-                        {genre.name}
-                    </Link>
-                </DropdownMenuItem>
-            ))}
+            {genres.length > 0 ? (
+                genres.map((genre) => (
+                    <DropdownMenuItem key={genre.id}>
+                        <Link href={`/genre/${genre.id}?genre=${genre.name}`}>
+                            {genre.name}
+                        </Link>
+                    </DropdownMenuItem>
+                ))
+            ) : (
+                <DropdownMenuItem>No genres available</DropdownMenuItem>
+            )}
         </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
 export default GenreDropdown;
